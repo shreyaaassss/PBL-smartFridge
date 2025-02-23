@@ -8,6 +8,10 @@ from rich.console import Console
 from typing import List, Optional, Union, Dict
 from datetime import datetime
 import tempfile
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 class SmartKitchenAssistant:
     def __init__(self):
@@ -18,10 +22,10 @@ class SmartKitchenAssistant:
         self._setup_gemini()
 
     def _setup_mongodb(self) -> None:
-        """Set up MongoDB connection with authentication and error handling."""
+        """Set up MongoDB connection securely using environment variables."""
         try:
-            username = urllib.parse.quote_plus("Enter_your_username")
-            password = urllib.parse.quote_plus("Enter_your_pass")
+            username = urllib.parse.quote_plus(os.getenv("MONGO_USER", "default_user"))
+            password = urllib.parse.quote_plus(os.getenv("MONGO_PASS", "default_pass"))
             mongo_uri = (
                 f"mongodb+srv://{username}:{password}@pbl-fridge.e5p43.mongodb.net/"
                 "?retryWrites=true&w=majority&appName=PBL-Fridge"
@@ -35,8 +39,8 @@ class SmartKitchenAssistant:
             raise
 
     def _setup_gemini(self) -> None:
-        """Configure Gemini AI with API key."""
-        api_key = "Enter_your_api_key"
+        """Configure Gemini AI securely using environment variable."""
+        api_key = os.getenv("GEMINI_API_KEY", "default_api_key")
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel('gemini-1.5-flash')
 
