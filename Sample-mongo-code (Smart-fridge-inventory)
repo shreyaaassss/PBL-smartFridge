@@ -1,3 +1,4 @@
+****FOLLOWING CODE ONLY WORKS ON YOUR PERSONAL MACHINES OR LAPTOPS *******
 import os
 import urllib.parse
 import cv2
